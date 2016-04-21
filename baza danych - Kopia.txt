@@ -1,0 +1,235 @@
+#include <stdio.h>
+
+#include <stdlib.h>
+
+ 
+
+#define MAX_IMIE 10
+
+#define MAX_NAZWISKO 20
+
+ 
+
+struct osoba{
+
+    char imie[MAX_IMIE];
+
+    char nazwisko[MAX_NAZWISKO];
+
+    long int telefon;
+
+};
+
+ 
+
+ 
+
+struct osoba* dodaj_rekord(struct osoba* ksiazka, int n, char* nowe_imie, char* nowe_nazwisko, long int nowy_telefon){
+
+ 
+
+    struct osoba* nowa_ksiazka = calloc(n+1, sizeof(struct osoba) );
+
+ 
+
+    if(nowa_ksiazka == NULL) return NULL;
+
+ 
+
+    int i;
+
+    for(i = 0; i < n; i++){
+
+        nowa_ksiazka[i] = ksiazka[i];
+
+    }
+
+ 
+
+    strcpy(nowa_ksiazka[n].imie, nowe_imie);
+
+    strcpy(nowa_ksiazka[n].nazwisko, nowe_nazwisko);
+
+    nowa_ksiazka[n].telefon = nowy_telefon;
+
+ 
+
+    free(ksiazka);
+
+ 
+
+    return nowa_ksiazka;
+
+}
+
+ 
+
+ 
+
+int znajdz_ponumerze(struct osoba* ksiazka, int ilosc_rekordow, long int numer){
+
+    int i;
+
+    for(i = 0; i < ilosc_rekordow; i++){
+
+        if(ksiazka[i].telefon == numer) return i;
+
+    }
+
+ 
+
+    return -1;
+
+}
+
+ 
+
+ 
+
+void wypisz_rekord(struct osoba* rekord){
+
+    printf("%s %s %d\n", (*rekord).imie, (*rekord).nazwisko, (*rekord).telefon);
+
+}
+
+ 
+
+ 
+
+struct osoba* usun_rekord(struct osoba* ksiazka, int n, int indeks){
+
+ 
+
+    if(indeks >= 0 && indeks < n){
+
+        struct osoba* nowa_ksiazka = calloc(n-1, sizeof(struct osoba) );
+
+ 
+
+        if(nowa_ksiazka == NULL) return NULL;
+
+ 
+
+        int i;
+
+        for(i = 0; i < indeks; i++) nowa_ksiazka[i] = ksiazka[i];
+
+        for(i = indeks; i < (n-1); i++) nowa_ksiazka[i] = ksiazka[i+1];
+
+ 
+
+        free(ksiazka);
+
+ 
+
+        return nowa_ksiazka;
+
+    }
+
+ 
+
+    else return NULL;
+
+ 
+
+}
+
+ 
+
+ 
+
+int main(){
+
+    struct osoba* ksiazka;
+
+    int rozmiar_ksiazki = 0;
+
+    int i;
+
+ 
+
+    //dodawanie rekordpw
+
+    ksiazka = dodaj_rekord(ksiazka, 0, "Michal", "Danilowicz", 123456789);
+
+ 
+
+    if(ksiazka == NULL) printf("\nniepowodzenie dodania rekordu 1");
+
+    else rozmiar_ksiazki++;
+
+ 
+
+    ksiazka = dodaj_rekord(ksiazka, 1, "Jan", "Smith", 789789789);
+
+ 
+
+    if(ksiazka == NULL) printf("niepowodzenie dodania rekordu 2");
+
+    else rozmiar_ksiazki++;
+
+ 
+
+ 
+
+ 
+
+    //wypisanie ksi¹¿ki
+
+    printf("\nksiazka:\n\n");
+
+    if(rozmiar_ksiazki == 0) printf("brak wpisanych osob");
+
+    else{
+
+        for(i = 0; i < rozmiar_ksiazki; i++) wypisz_rekord(&ksiazka[i]);
+
+    }
+
+ 
+
+ 
+
+    //szukanie numeru do usuniecia
+
+    printf("\nwpisz numer telefonu, osoby do usuniecia: ");
+
+    int szukany_numer;
+
+    scanf("%d", &szukany_numer);
+
+    int szukany_indeks = znajdz_ponumerze(ksiazka, 2, szukany_numer);
+
+ 
+
+    if(szukany_indeks == -1) printf("nie znaleziono osoby o podanym numerze");
+
+    else{
+
+        ksiazka = usun_rekord(ksiazka, 2, szukany_indeks);
+
+        rozmiar_ksiazki--;
+
+    }
+
+ 
+
+ 
+
+    //potórne wypisanie ksi¹¿ki
+
+    printf("\nksiazka:\n\n");
+
+    if(rozmiar_ksiazki == 0) printf("brak wpisanych osob");
+
+    else{
+
+        for(i = 0; i < rozmiar_ksiazki; i++) wypisz_rekord(&ksiazka[i]);
+
+    }
+
+ 
+
+    free(ksiazka);
+
+}
