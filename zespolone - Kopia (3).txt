@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <math.h>
+
+struct complex{
+    float re;
+    float im;
+    float modul;
+};
+
+void wypisz_zesp(struct complex z) {
+    //zeby byl ladny minus przed Im
+    if(z.im >= 0) printf("%.2f + %.2fi \n", z.re, z.im);
+    else printf("%.2f - %.2fi \n", z.re, -z.im);
+}
+
+struct complex dodaj_zesp(struct complex a, struct complex b){
+    struct complex c;
+
+    c.re = a.re + b.re;
+    c.im = a.im + b.im;
+
+    return c;
+}
+
+struct complex odejmij_zesp(struct complex a, struct complex b){
+    struct complex c;
+
+    c.re = a.re - b.re;
+    c.im = a.im - b.im;
+
+    return c;
+}
+
+struct complex pomnoz_zesp(struct complex a, struct complex b){
+    struct complex c;
+
+    c.re = a.re * b.re - a.im * b.im;
+    c.im = a.im * b.re + a.re * b.im;
+
+    return c;
+}
+
+float modul_zesp(struct complex z){
+    float mod = sqrt(z.re*z.re + z.im*z.im);
+
+    return mod;
+}
+
+struct complex liczba_sprzez(struct complex z){
+    struct complex a;
+
+    a.re = z.re;
+    a.im = -z.im;
+
+    return a;
+}
+
+int main(){
+    struct complex x, y;
+
+    x.re = 40;
+    x.im = 4;
+
+    y.re = 5;
+    y.im = 3;
+
+        wypisz_zesp(x);
+    wypisz_zesp(y);
+
+    struct complex z = dodaj_zesp(x, y);
+
+    wypisz_zesp(z);
+    wypisz_zesp( liczba_sprzez(z) );
+    printf("%.2f\n", modul_zesp(z) );
+
+}
