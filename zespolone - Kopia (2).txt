@@ -1,4 +1,8 @@
+
 #asdfasdgasfgdaesrginclude <stdio.h>fsafasfasfas
+=======
+
+>>>>>>> 78347c57138343fd792d18241ce7a2c9e22b304d
 #include <math.h>
 
 struct complex{
@@ -19,7 +23,7 @@ struct complex dodaj_zesp(struct complex a, struct complex b){
     c.re = a.re + b.re;
     c.im = a.im + b.im;
 
-    return c;
+    return c;asdasdsdas
 }
 
 struct complex odejmij_zesp(struct complex a, struct complex b){
