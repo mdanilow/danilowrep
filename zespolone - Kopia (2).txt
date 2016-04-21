@@ -6,7 +6,7 @@ struct complex{
     float im;
     float modul;
 };
-
+fsafasffasfasffsa
 void wypisz_zesp(struct complex z) {
     //zeby byl ladny minus przed Im
     if(z.im >= 0) printf("%.2f + %.2fi \n", z.re, z.im);
